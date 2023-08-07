@@ -3,11 +3,14 @@ const app = express();
 const pool = require('./db');
 const cors = require('cors');
 const registerLogin=require('./Routes/registerLogin');
+const Dashboard = require('./Routes/Dashboard');
+
 app.use(cors());
 app.use(express.json()) 
 
 
 app.use(registerLogin);
+app.use(Dashboard);
 
 app.use((req,res,next)=>{
     res.status(404).send("Page not found");
