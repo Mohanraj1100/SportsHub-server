@@ -24,4 +24,27 @@ router.get('/organizer-dashboard', async (req, res) => {
   }
 });
 
+
+router.get('/myAuctions', async (req, res) => {
+  try {
+    const { username } = req.query;
+    const user = await pool.query('select id from users where username = $1', [username]);
+    // console.log(user.rows);
+
+    const id = user.rows[0].id;
+    const result = await pool.query(`
+      SELECT id, auctionname, TO_CHAR(auctiondate, 'DD Mon YYYY') AS formattedAuctionDate,
+      pointsperteam, minbid, bidincrease, playerperteam, profileid
+      FROM createauctions
+      WHERE profileid=$1
+    `, [id]);
+
+    // console.log(result.rows);
+    res.json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 module.exports = router;

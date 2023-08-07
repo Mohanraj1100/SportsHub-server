@@ -44,23 +44,6 @@ router.post('/contactus',async(req,res)=>{
         console.log(error.message)
     }
 })
-
-router.get('/api/auctions', async (req, res) => {
-    try {
-        const {userName} = req.query;
-        const user = await pool.query(`select id from users where username=${userName}`);
-        console.log(user)
-        const id = user.rows[0].id;
-        const result = await pool.query(`SELECT id, auctionname, TO_CHAR(auctiondate, \'DD Mon YYYY\') AS formattedAuctionDate, pointsperteam, minbid, bidincrease, playerperteam,profileid FROM createauctions where profileid=${id}`);
-        console.log(result)
-        const auctions = result.rows;
-      res.json(auctions);
-      console.log(auctions);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Internal server error' });
-    }
-
-  });
+  
 
 module.exports = router;
