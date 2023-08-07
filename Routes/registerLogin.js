@@ -43,8 +43,6 @@ router.post('/contactus',async(req,res)=>{
     } catch (error) {
         console.log(error.message)
     }
-   
-
 })
 
 router.get('/api/auctions', async (req, res) => {
