@@ -2,9 +2,9 @@ const express = require('express')
 const app = express();
 const pool = require('./db');
 const cors = require('cors');
-const registerLogin=require('./Routes/registerLogin');
-const Dashboard = require('./Routes/Dashboard');
-const storeAuction = require('./Routes/storeAuction')
+const registerLogin=require('./routes/registerLogin');
+const Dashboard = require('./routes/Dashboard');
+const storeAuction = require('./routes/storeAuction')
 
 app.use(cors());
 app.use(express.json()) 
