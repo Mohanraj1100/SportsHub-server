@@ -50,7 +50,7 @@ router.get('/auctionDetails', async (req, res) => {
   try {
     const { id } = req.query;
     const result = await pool.query(
-      `SELECT id, auctionname, TO_CHAR(auctiondate, 'DD Mon YYYY') AS formattedAuctionDate, pointsperteam, minbid, bidincrease, playerperteam, profileid FROM createauctions WHERE id=$1`,
+      `SELECT id, auctionname, TO_CHAR(auctiondate, 'YYYY-MM-DD') AS formattedAuctionDate, pointsperteam, minbid, bidincrease, playerperteam, profileid FROM createauctions WHERE id=$1`,
       [id]
     );
 
