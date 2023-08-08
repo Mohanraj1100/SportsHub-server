@@ -8,7 +8,7 @@ router.get('/organizer-dashboard', async (req, res) => {
     const idResult = await pool.query('select id from users where username = $1', [username]);
 
     if (idResult.rows.length === 0) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(403).json({ error: 'User not found' });
     }
 
     const id = idResult.rows[0].id;
@@ -19,8 +19,7 @@ router.get('/organizer-dashboard', async (req, res) => {
     
     res.json(dashboardDetails.rows);
   } catch (error) {
-    console.error('Error fetching dashboard details:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.log(error.message);
   }
 });
 
