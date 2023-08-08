@@ -47,4 +47,24 @@ router.get('/myAuctions', async (req, res) => {
   }
 });
 
+router.get('/auctionDetails', async (req, res) => {
+  try {
+    const { id } = req.query;
+    const result = await pool.query(
+      `SELECT id, auctionname, TO_CHAR(auctiondate, 'DD Mon YYYY') AS formattedAuctionDate, pointsperteam, minbid, bidincrease, playerperteam, profileid FROM createauctions WHERE id=$1`,
+      [id]
+    );
+
+    const auction = result.rows[0];
+    if (!auction) {
+      return res.status(404).json({ error: 'Auction not found' });
+    }
+
+    res.json(auction);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 module.exports = router;
