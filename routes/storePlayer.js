@@ -10,7 +10,7 @@ const imgconfig = multer.diskStorage(
             callback(null, "./uploads")
         },
         filename: (req, file, callback) => {
-            callback(null, `team-image-${Date.now()}.${file.originalname}`)
+            callback(null, `player-image-${Date.now()}.${file.originalname}`)
         }
     }
 )
@@ -19,7 +19,7 @@ const upload = multer({
     storage: imgconfig
 })
 
-router.post('/teamregister', upload.single("photo"), async (req, res) => {
+router.post('/playerregister', upload.single("photo"), async (req, res) => {
     const { teamname, teamshortname, shortcutkey, auctionid } = req.body;
     const { filename } = req.file;
     // console.log(req);
@@ -38,7 +38,7 @@ router.post('/teamregister', upload.single("photo"), async (req, res) => {
 });
 
 
-router.get('/teams', async (req, res) => {
+router.get('/players', async (req, res) => {
     try {
         const { id } = req.query;
         // console.log(id);
@@ -59,7 +59,7 @@ router.get('/teams', async (req, res) => {
 
 })
 
-router.put('/updateteam',async(req,res)=>{
+router.put('/updateplayer',async(req,res)=>{
 
     const {teamname,teamshortname,shortcutkey,teamid} = req.body;
     try{
@@ -74,7 +74,7 @@ router.put('/updateteam',async(req,res)=>{
     }
 })
 
-router.delete('/deleteteam/:teamid', async (req, res) =>{
+router.delete('/deleteplayer', async (req, res) =>{
     const teamid = req.params.teamid;
     try {
         const deleteData = await pool.query('Delete from team_details where team_id = $1',[teamid])
@@ -86,7 +86,6 @@ router.delete('/deleteteam/:teamid', async (req, res) =>{
 
     
   })
-
 module.exports = router
 
 
