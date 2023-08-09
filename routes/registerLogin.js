@@ -37,8 +37,9 @@ router.post('/login',async(req,res)=>{
 
 router.post('/contactus',async(req,res)=>{
     try {
-        const {userName,email,phoneNumber,message} = req.body;
-        await pool.query("Insert into contactus(userName,email,phonenumber,message) values($1,$2,$3,$4)",[userName,email,phoneNumber,message])
+        const {name,email,phoneNumber,message} = req.body;
+        await pool.query("insert into contactus(username,email,phonenumber,message) values($1,$2,$3,$4)",[name,email,phoneNumber,message])
+        // console.log(res.row[0]);
         return res.status(200).send({ message: "Sucess" });
     } catch (error) {
         console.log(error.message)
