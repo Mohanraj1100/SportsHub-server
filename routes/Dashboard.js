@@ -31,20 +31,31 @@ router.get('/myAuctions', async (req, res) => {
 
     const id = user.rows[0].id;
     const result = await pool.query(`
-      SELECT id, auctionname, TO_CHAR(auctiondate, 'DD Mon YYYY') AS auctiondate,
+      SELECT id, auctionname, TO_CHAR(auctiondate, 'YYYY-MM-DD') AS auctiondate,
       pointsperteam, minbid, bidincrease, playerperteam, profileid
       FROM createauctions
       WHERE profileid=$1
     `, [id]);
 
-    // console.log(result.rows);
+    console.log(result.rows);
     res.json(result.rows);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+router.delete('/deleteAuction/:id', async (req, res) =>{
+  const id = req.params.id;
+  try {
+       await pool.query('Delete from createauctions where id = $1',[id])
+      return res.status(200).json({ message: "Deleted successfully!" });
+      
+  } catch (error) {
+      console.log(error.message);
+  }
 
+  
+})
 router.get('/auctionDetails', async (req, res) => {
   try {
     const { id } = req.query;
