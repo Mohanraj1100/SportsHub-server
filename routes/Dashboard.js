@@ -13,7 +13,7 @@ router.get('/organizer-dashboard', async (req, res) => {
 
     const id = idResult.rows[0].id;
     const dashboardDetails = await pool.query(
-        `select auctionName, TO_CHAR(auctionDate, 'DD Mon YYYY') AS auctiondate from createauctions WHERE profileId = $1`,
+        `select id,auctionName, TO_CHAR(auctionDate, 'DD Mon YYYY') AS auctiondate, file_name from createauctions WHERE profileId = $1`,
         [id]
       );
     

@@ -48,9 +48,10 @@ router.post('/contactus',async(req,res)=>{
 
 router.put('/updatepass',async(req,res)=>{
 
-    const {newpassword,userid} = req.body;
+    const {newpassword,username} = req.body;
     try{
-    const updatedQuery = await pool.query('UPDATE users set password = $1 WHERE id = $2',[newpassword,userid])
+        console.log("Inside update pass");
+    const updatedQuery = await pool.query('UPDATE users set password = $1 WHERE username = $2',[newpassword,username])
     console.log("updated Sucessfully");
     return res.status(200).json({ message: "updated Sucessfully" });
     }
