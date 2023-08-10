@@ -15,6 +15,7 @@ app.use(registerLogin);
 app.use(Dashboard);
 app.use(storeAuction);
 app.use(storeTeam);
+app
 app.use(OpenPanal);
 
 app.use((req,res,next)=>{
