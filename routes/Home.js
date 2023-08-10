@@ -6,7 +6,7 @@ router.get('/todayAuctions', async (req, res) => {
     try {
         const result = await pool.query(`
             SELECT id, auctionname, TO_CHAR(auctiondate, 'DD-MM-YYYY') AS auctiondate,file_name
-            FROM createauctions
+            FROM createauctions WHERE auctiondate = CURRENT_DATE
         `);
 
         res.json(result.rows);
@@ -16,4 +16,17 @@ router.get('/todayAuctions', async (req, res) => {
     }
 });
 
+router.get('/upcomingAuctions', async (req, res) => {
+    try {
+        const result = await pool.query(`
+            SELECT id, auctionname, TO_CHAR(auctiondate, 'DD-MM-YYYY') AS auctiondate,file_name
+            FROM createauctions WHERE auctiondate > CURRENT_DATE
+        `);
+
+        res.json(result.rows);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
 module.exports = router;
