@@ -6,6 +6,8 @@ const registerLogin=require('./routes/registerLogin');
 const Dashboard = require('./routes/Dashboard');
 const storeAuction = require('./routes/storeAuction')
 const storeTeam = require('./routes/storeTeam')
+const storePlayer = require('./routes/storePlayer')
+
 const home=require('./routes/Home')
 const OpenPanal = require('./routes/OpenPanal')
 app.use(cors());
@@ -16,6 +18,7 @@ app.use(registerLogin);
 app.use(Dashboard);
 app.use(storeAuction);
 app.use(storeTeam);
+app.use(storePlayer);
 app.use(home);
 app.use(OpenPanal);
 
