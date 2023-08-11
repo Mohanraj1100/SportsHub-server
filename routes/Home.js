@@ -35,4 +35,13 @@ router.get('/upcomingAuctions', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+router.get('/clients',async(req,res)=>{
+    try{
+    const result=await pool.query('select * from clients');
+    res.json(result.rows)
+    }catch(error){
+        console.error(error.message);
+        res.status(500).json({error:'Internal server error'})
+    }
+})
 module.exports = router;
