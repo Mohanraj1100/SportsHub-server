@@ -35,7 +35,7 @@ router.get('/auction', async (req, res) => {
       return res.status(404).json({ error: 'Players not found' });
     }
 
-    const resultTeam = await pool.query('SELECT team_id, teamname, teamfilename, playercount FROM team_details WHERE auctionname = $1', [auctionData.auctionname]);
+    const resultTeam = await pool.query('SELECT team_id, teamname, teamfilename, playercount, availablepoints FROM team_details WHERE auctionname = $1', [auctionData.auctionname]);
 
     const teams = resultTeam.rows;
     if (teams.length === 0) {
@@ -51,11 +51,11 @@ router.get('/auction', async (req, res) => {
 
 router.put('/updatesoldplayer',async(req,res)=>{
 
-  const {playerid, teamid, playerStatus, count} = req.body;
+  const {playerid, teamid, playerStatus, count, points} = req.body;
   console.log(req.body);
   try{
   const updatedPlayer = await pool.query('UPDATE player_details set teamid = $1, playerstatus = $2 WHERE player_id = $3',[teamid,playerStatus,playerid]);
-  const updatedTeam = await pool.query('UPDATE team_details set playercount = playercount + $1 WHERE team_id = $2',[count,teamid]);
+  const updatedTeam = await pool.query('UPDATE team_details set playercount = playercount + $1, availablepoints = availablepoints - $2  WHERE team_id = $3',[count,points,teamid]);
   // console.log("updated Sucessfully",updatedQuery);
   return res.status(200).json({ message: "updated Sucessfully" });
   }
