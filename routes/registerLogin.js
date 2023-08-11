@@ -61,5 +61,17 @@ router.put('/updatepass',async(req,res)=>{
     }
 })
   
+router.get('/usercheck/:username',async(req,res)=>{
+    const username = req.params.username;
+    console.log("Forgot Pass",username);
+
+    const checkQuery = await pool.query('select id from users where username = $1',[username])
+    console.log(checkQuery.rows);
+    if(checkQuery.rows.length > 0)
+    {
+        return res.status(200).json({ "message": "Got the user"})
+    }
+    return res.status(403).send({"code": "ERROR", "message": "Invalid Credentials"})
+})
 
 module.exports = router;
