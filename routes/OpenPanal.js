@@ -35,7 +35,7 @@ router.get('/auction', async (req, res) => {
       return res.status(404).json({ error: 'Players not found' });
     }
 
-    const resultTeam = await pool.query('SELECT team_id, teamname, teamfilename, playercount, availablepoints, teamshortname FROM team_details WHERE auctionname = $1', [auctionData.auctionname]);
+    const resultTeam = await pool.query('SELECT team_id, teamname, teamfilename, playercount, availablepoints, teamshortname, no_of_players FROM team_details WHERE auctionname = $1', [auctionData.auctionname]);
 
     const teams = resultTeam.rows;
     if (teams.length === 0) {
