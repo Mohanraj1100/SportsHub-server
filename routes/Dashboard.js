@@ -46,29 +46,6 @@ router.get('/myAuctions', async (req, res) => {
   }
 });
 
-// export const getAuctionsForUser = async (req,res) => {
-//   try {
-//     const { username } = req.query;
-
-//     // Find the user by username
-//     const userRepository = getRepository(User);
-//     const user = await userRepository.findOne({ where: { username } });
-
-//     if (!user) {
-//       return res.status(404).json({ error: 'User not found' });
-//     }
-
-//     // Fetch createauctions data for the user
-//     const createAuctionRepository = getRepository(CreateAuction);
-//     const result = await createAuctionRepository.find({ where: { profileid: user.id } });
-
-//     console.log(result);
-//     res.json(result);
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// };
 
 router.delete('/deleteAuction/:id', async (req, res) =>{
   const id = req.params.id;
