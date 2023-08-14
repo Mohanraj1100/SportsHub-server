@@ -50,7 +50,7 @@ router.get('/teams', async (req, res) => {
         //     return res.status(403).json({ error: 'no auction found' });
         // }
 
-        const teamDetails = await pool.query('select team_id,teamname,teamshortname,teamshortcutkey from team_details where auctionname = $1',[auctionoriginal])
+        const teamDetails = await pool.query('select team_id,teamname,teamshortname,teamshortcutkey from team_details where auctionname = $1 order by team_id',[auctionoriginal])
         console.log(teamDetails);
         res.json(teamDetails.rows)
     }
@@ -66,6 +66,22 @@ router.put('/updateteam',async(req,res)=>{
     try{
     const updatedQuery = await pool.query('UPDATE team_details set teamname = $1, teamshortname = $2, teamshortcutkey = $3 WHERE team_id = $4',[teamname,teamshortname,shortcutkey,teamid])
     console.log("updated Sucessfully");
+    return res.status(200).json({ message: "updated Sucessfully" });
+
+    }
+    catch(error)
+    {
+        console.log(error.message);
+    }
+})
+
+router.put('/deleteteamPlayer',async(req,res)=>{
+
+    const {teamid} = req.body;
+    console.log(teamid);
+    try{
+    const updatedQuery = await pool.query('UPDATE player_details set teamid = null, playerstatus=null WHERE teamid = $1',[teamid])
+    console.log("playerstatus updated Sucessfully");
     return res.status(200).json({ message: "updated Sucessfully" });
 
     }
