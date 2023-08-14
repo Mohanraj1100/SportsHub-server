@@ -66,16 +66,8 @@ router.get('/players/:id', async (req, res) => {
         const { id } = req.params;
 
         console.log(id);
-        const playersname = await pool.query('select * from player_details where auctionid = $1', [id]);
-        // const auctionoriginal = auctionname.rows[0].auctionname;
-        // console.log(auctionoriginal);
-        // // if (auctionname.rows.length == 0) {
-        // //     return res.status(403).json({ error: 'no auction found' });
-        // // }
-
-        // const teamDetails = await pool.query('select team_id,teamname,teamshortname,teamshortcutkey from team_details where auctionname = $1',[auctionoriginal])
-        // console.log(teamDetails);
-        // console.log(playersname);
+        const playersname = await pool.query('select * from player_details where auctionid = $1 order by player_id', [id]);
+    
         res.json(playersname.rows)
     }
     catch (error) {
