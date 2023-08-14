@@ -25,11 +25,12 @@ router.post('/teamregister', upload.single("photo"), async (req, res) => {
     // console.log(req);
 
     try {
-          const idRes = await pool.query("SELECT auctionname,pointsperteam FROM createauctions WHERE id = $1", [auctionid]);
+          const idRes = await pool.query("SELECT auctionname,pointsperteam,playerperteam FROM createauctions WHERE id = $1", [auctionid]);
         //   console.log(idRes);
           const auctionname = idRes.rows[0].auctionname; 
           const pointsperteam = idRes.rows[0].pointsperteam; 
-        await pool.query("INSERT INTO team_details(teamname, teamshortname, teamshortcutkey, auctionname,teamfilename,availablepoints) VALUES ($1, $2, $3, $4, $5,$6)", [ teamname, teamshortname, shortcutkey,auctionname,filename,pointsperteam]);
+          const playerperteam = idRes.rows[0].playerperteam; 
+        await pool.query("INSERT INTO team_details(teamname, teamshortname, teamshortcutkey, auctionname,teamfilename,availablepoints,no_of_players) VALUES ($1, $2, $3, $4, $5,$6,$7)", [ teamname, teamshortname, shortcutkey,auctionname,filename,pointsperteam,playerperteam]);
         console.log("Data added");
         res.status(201).json({ message: "File uploaded successfully!" });
     } catch (error) {
