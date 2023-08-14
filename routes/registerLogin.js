@@ -25,9 +25,7 @@ router.post('/login',async(req,res)=>{
     const {username,password} = req.body;
 
     const user = await pool.query("Select * from users where username=$1",[username]);
-    const userPassWord = await pool.query("Select * from users where password=$1",[password]);
-
-    if((user.rows.length > 0)  && (userPassWord.rows.length > 0)){
+    if((user.rows.length > 0)  && (user.rows[0].password === password)){
         return res.status(200).json({ "message": "Login Sucessfull"})
     }
     return res.status(403).send({"code": "ERROR", "message": "Invalid Credentials"})
