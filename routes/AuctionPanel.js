@@ -40,6 +40,7 @@ router.get('/unsoldplayers/:auctionid', async (req, res)=>{
 
 router.get('/auctionteamlist/:auctionid', async (req, res)=>{
     const auctionid = req.params.auctionid;
+    console.log(auctionid)
     const idRes = await pool.query("SELECT auctionname FROM createauctions WHERE id = $1", [auctionid]);
     const auctionname = idRes.rows[0].auctionname; 
     console.log("Team List players",auctionid);
