@@ -50,6 +50,16 @@ router.get('/myAuctions', async (req, res) => {
 router.delete('/deleteAuction/:id', async (req, res) =>{
   const id = req.params.id;
   try {
+    const auctionNameResponse = await pool.query(
+      'SELECT auctionname FROM createauctions WHERE id = $1',
+      [id]
+    );
+    const auctionName = auctionNameResponse.rows[0]?.auctionname;
+    console.log(auctionName);
+    await pool.query('DELETE FROM player_details WHERE auctionid = $1', [id]);
+
+    await pool.query('DELETE FROM team_details WHERE auctionname = $1', [auctionName]);
+
        await pool.query('Delete from createauctions where id = $1',[id])
       return res.status(200).json({ message: "Deleted successfully!" });
       
@@ -90,7 +100,7 @@ router.post('/transferPlayer', async  (req, res) => {
   console.log(players);
   if(players.length>0){
   for (const player of players) {
-    await pool.query('UPDATE player_details SET auctionid = $1 WHERE player_id = $2', [sourceAuctionId, player.player_id]);
+    await pool.query('UPDATE player_details SET auctionid = $1 , teamid=null, playerstatus=null WHERE player_id = $2', [sourceAuctionId, player.player_id]);
 
   }
   res.status(200).json({ message: 'Player Transferred Successfully' });
