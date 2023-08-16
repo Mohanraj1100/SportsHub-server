@@ -90,6 +90,29 @@ router.get('/auctionDetails', async (req, res) => {
   }
 });
 
+
+router.get('/teamCount', async (req, res) => {
+  try {
+      const {id} = req.query;
+      console.log(id)
+      const resultname=await pool.query(`select auctionname from createauctions where id=$1`,[id]);
+      const name=resultname.rows[0].auctionname;
+      console.log(name)
+      const result = await pool.query(
+          `SELECT COUNT(*) AS count FROM team_details WHERE auctionname = $1`,
+          [name]
+      );
+      console.log(result.rows)
+      const count = result.rows[0].count;
+      console.log(count)
+      res.json({ count });
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 router.post('/transferPlayer', async  (req, res) => {
   try{
   const { sourceAuctionId, targetAuctionId } = req.body;
